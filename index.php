@@ -1,4 +1,9 @@
 <?php
+  ini_set('error_reporting', E_ALL);
+  ini_set('display_errors', 1);
+  ini_set('display_startup_errors', 1);
+  date_default_timezone_set('Asia/Vladivostok');
+
   $is_auth = (bool) rand(0, 1);
   $user_name = 'Алексей';
   $user_avatar = 'img/user.jpg';
@@ -8,40 +13,52 @@
     [
       'title'=>'2014 Rossignol District Snowboard',
       'category'=>'Доски и лыжи',
-      'price'=>'10 999',
+      'price'=>'10999',
       'url_img'=>'img/lot-1.jpg'
     ],
     [
       'title'=>'DC Ply Mens 2016/2017 Snowboard',
       'category'=>'Доски и лыжи',
-      'price'=>'15 999',
+      'price'=>'15999',
       'url_img'=>'img/lot-2.jpg'
     ],
     [
       'title'=>'Крепление Union Contacts Pro 2015 года размер L/XL',
       'category'=>'Крепления',
-      'price'=>'8 000',
+      'price'=>'8000',
       'url_img'=>'img/lot-3.jpg'
     ],
     [
       'title'=>'Ботинки для сноуборда DC Mutiny Charocal',
       'category'=>'Ботинки',
-      'price'=>'10 999',
+      'price'=>'10999',
       'url_img'=>'img/lot-4.jpg'
     ],
     [
       'title'=>'Куртка для сноуборда DC Mutiny Charocal',
       'category'=>'Одежда',
-      'price'=>'7 500',
+      'price'=>'7500',
       'url_img'=>'img/lot-5.jpg'
     ],
     [
       'title'=>'Маска Oakley Canopy',
       'category'=>'Разное',
-      'price'=>'5 400',
+      'price'=>'5400',
       'url_img'=>'img/lot-6.jpg'
     ]
   ];
+
+  function formatPrice($price)
+  {
+    $rub = "<b class=\"rub\">р</b>";
+    $price = ceil(abs((int)$price));
+    if ($price < 1000) {
+      return "$price $rub";
+    }
+    $price = number_format($price, 0, '', ' ');
+    return "$price $rub";
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -83,7 +100,7 @@
             </li>
           </ul>
         <?php endif;?>
-        
+
       </nav>
     </div>
   </header>
@@ -130,7 +147,7 @@
               <div class="lot__state">
                 <div class="lot__rate">
                   <span class="lot__amount">Стартовая цена</span>
-                  <span class="lot__cost"><?=$lot['price'];?><b class="rub">р</b></span>
+                  <span class="lot__cost"><?=formatPrice($lot['price']);?></span>
                 </div>
                 <div class="lot__timer timer">
 
