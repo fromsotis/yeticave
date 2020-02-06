@@ -42,7 +42,7 @@
               <span class="lot__cost"><?=formatPrice(clearStr($lot['price']));?></span>
             </div>
             <div class="lot__timer timer">
-
+              <?=calcTimeToMidnight();?>
             </div>
           </div>
         </div>

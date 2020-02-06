@@ -27,3 +27,14 @@ function clearStr($data)
   //return trim(strip_tags($data))
   return trim(htmlspecialchars($data));
 }
+
+function calcTimeToMidnight()
+{
+  $diff = strtotime('tomorrow') - time();
+  $hour = floor($diff / 3600);
+  $min = 60 - date('i');
+  if ($hour < 10) {
+    $hour = "0$hour";
+  }
+  return "$hour:$min";
+}
