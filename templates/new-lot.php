@@ -1,29 +1,38 @@
+<?php
+  $lot_name = clearStr($lots['lot-name']);
+  $lot_category = clearStr($lots['category']);
+  $lot_message = clearStr($lots['message']);
+  $lot_rate = clearInt($lots['lot-rate']);
+  $lot_step = clearInt($lots['lot-step']);
+  $lot_date = clearStr($lots['lot-date']);
+  $lot_img = "uploads/{$lots['file_name']}";
+?>
 <main>
 
   <?= $menu;?>
-  
+
   <section class="lot-item container">
-    <h2><?= $lots[$id]['title'];?></h2>
+    <h2><?= $lot_name;?></h2>
     <div class="lot-item__content">
       <div class="lot-item__left">
         <div class="lot-item__image">
-          <img src="<?= $lots[$id]['url_img'];?>" width="730" height="548" alt="<?= $lots[$id]['title'];?>">
+          <img src="<?= $lot_img;?>" width="730" height="548" alt="<?= $lot_name;?>">
         </div>
-        <p class="lot-item__category">Категория: <span><?= $lots[$id]['category'];?></span></p>
-        <p class="lot-item__description"><?= $lots[$id]['description'];?></p>
+        <p class="lot-item__category">Категория: <span><?= $lot_category;?></span></p>
+        <p class="lot-item__description"><?= $lot_message;?></p>
       </div>
       <div class="lot-item__right">
         <div class="lot-item__state">
           <div class="lot-item__timer timer">
-            <?= calcTimeToMidnight();?>
+            <?= showLotCompletionDate($lot_date);?>
           </div>
           <div class="lot-item__cost-state">
             <div class="lot-item__rate">
               <span class="lot-item__amount">Текущая цена</span>
-              <span class="lot-item__cost"><?= formatPrice($lots[$id]['price']);?></span>
+              <span class="lot-item__cost"><?= formatPrice($lot_rate);?></span>
             </div>
             <div class="lot-item__min-cost">
-              Мин. ставка <span>12 000 р</span>
+              Мин. ставка <span><?= formatPrice($lot_step);?></span>
             </div>
           </div>
           <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post">

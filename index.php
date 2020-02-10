@@ -2,6 +2,7 @@
 require_once 'data.php';
 require_once 'functions.php';
 
+$menu_block = render('templates/menu.php', ['categories' => $categories]);
 $main_page = render('templates/main.php', ['lots' => $lots]);
 $layout_page = render('templates/layout.php',
   [
@@ -10,7 +11,7 @@ $layout_page = render('templates/layout.php',
     'user_avatar' => $user_avatar,
     'user_name' => $user_name,
     'content' => $main_page,
-    'categories' => $categories,
+    'menu' => $menu_block
   ]
 );
 

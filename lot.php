@@ -13,38 +13,32 @@ if (isset($_GET['id'])) {
   }
 }
 
+$menu_block = render('templates/menu.php', ['categories' => $categories]);
+
 if ($id === null) {
   http_response_code(404);
-  $error_page = render('templates/404.php', ['categories' => $categories]);
-  $layout_page = render('templates/layout.php',
-    [
-      'title' => '404: Страница не найдена',
-      'is_auth' => $is_auth,
-      'user_avatar' => $user_avatar,
-      'user_name' => $user_name,
-      'content' => $error_page,
-      'categories' => $categories,
-    ]
-  );
+  $title = '404: Страница не найдена';
+  $content_page = render('templates/404.php', ['menu' => $menu_block]);
 } else {
-    $lot_page = render('templates/lot.php',
+    $title = $lots[$id]['title'];
+    $content_page = render('templates/lot.php',
       [
         'id' => $id,
-        'categories' => $categories,
+        'menu' => $menu_block,
         'lots' => $lots
       ]
     );
-
-    $layout_page = render('templates/layout.php',
-      [
-        'title' => $lots[$id]['title'],
-        'is_auth' => $is_auth,
-        'user_avatar' => $user_avatar,
-        'user_name' => $user_name,
-        'content' => $lot_page,
-        'categories' => $categories,
-      ]
-    );
 }
+
+$layout_page = render('templates/layout.php',
+  [
+    'title' => $title,
+    'is_auth' => $is_auth,
+    'user_avatar' => $user_avatar,
+    'user_name' => $user_name,
+    'content' => $content_page,
+    'menu' => $menu_block
+  ]
+);
 
 echo $layout_page;

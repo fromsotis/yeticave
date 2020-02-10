@@ -12,10 +12,10 @@ function formatPrice($price)
 
 function render($template, $vars = [])
 {
-  if (!is_file($template) or !file_exists($template)) {
-    return "<b>$template</b> - ошибочный аргумент функции render!";
-    exit;
-  }
+  // if (!is_file($template) or !file_exists($template)) {
+  //   return "<b>$template</b> - ошибочный аргумент функции render!";
+  //   exit;
+  // }
   ob_start();
   extract($vars);
   require_once $template;
@@ -26,6 +26,11 @@ function clearStr($data)
 {
   //return trim(strip_tags($data))
   return trim(htmlspecialchars($data));
+}
+
+function clearInt($data)
+{
+  return abs((int)$data);
 }
 
 function calcTimeToMidnight()
@@ -41,3 +46,15 @@ function calcTimeToMidnight()
   }
   return "$hour:$min";
 }
+
+function showLotCompletionDate($date)
+{
+  $diff = strtotime($date) - time();
+  $day = floor($diff / 86400);
+  $timeToMidnight = calcTimeToMidnight();
+  if (!$day) {
+    return $timeToMidnight;
+  }
+  return $day.'day(s)';
+}
+
