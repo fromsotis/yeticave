@@ -13,6 +13,7 @@ if (isset($_GET['id'])) {
   }
 }
 
+
 $menu_block = render('templates/menu.php', ['categories' => $categories]);
 
 if ($id === null) {
@@ -20,6 +21,19 @@ if ($id === null) {
   $title = '404: Страница не найдена';
   $content_page = render('templates/404.php', ['menu' => $menu_block]);
 } else {
+
+    ///Сохраняем id просмотренного лота в cookies
+    if (empty($_COOKIE['lots-id'])) {
+      $ids[] = $id;
+    } else {
+        $ids = json_decode($_COOKIE['lots-id']);
+        if (!in_array($id, $ids)) {
+          $ids[] = $id;
+        }
+    }
+    setcookie('lots-id', json_encode($ids));
+    ///
+
     $title = $lots[$id]['title'];
     $content_page = render('templates/lot.php',
       [
