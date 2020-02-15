@@ -2,6 +2,8 @@
 require_once 'data.php';
 require_once 'functions.php';
 
+session_start();
+
 $id = null;
 
 if (isset($_GET['id'])) {
@@ -47,9 +49,7 @@ if ($id === null) {
 $layout_page = render('templates/layout.php',
   [
     'title' => $title,
-    'is_auth' => $is_auth,
     'user_avatar' => $user_avatar,
-    'user_name' => $user_name,
     'content' => $content_page,
     'menu' => $menu_block
   ]

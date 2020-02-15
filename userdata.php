@@ -1,11 +1,12 @@
 <?php
 
 // пользователи для аутентификации
+// fromsotis@gmail.com:Qw12345
 $users = [
     [
-        'email' => 'ignat.v@gmail.com',
-        'name' => 'Игнат',
-        'password' => '$2y$10$OqvsKHQwr0Wk6FMZDoHo1uHoXd4UdxJG/5UDtUiie00XaxMHrW8ka'
+        'email' => 'fromsotis@gmail.com',
+        'name' => 'Алексей',
+        'password' => '$2y$10$HrX3J8FE/0xITiNrYNnu0.LW3wZ7E8o5zHIm4FD.g3KqU7jrQ/wq2'
     ],
     [
         'email' => 'kitty_93@li.ru',

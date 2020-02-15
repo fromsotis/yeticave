@@ -7,7 +7,6 @@
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
-
   <header class="main-header">
     <div class="main-header__container container">
       <h1 class="visually-hidden">YetiCave</h1>
@@ -20,13 +19,14 @@
       </form>
       <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
       <nav class="user-menu">
-
-        <?php if ($is_auth):?>
+        
+        <?php if (isset($_SESSION['user'])):?>
           <div class="user-menu__image">
-            <img src="<?=$user_avatar;?>" width="40" alt="Пользователь">
+            <img src="<?= $user_avatar;?>" width="40" alt="Пользователь">
           </div>
           <div class="user-menu__logged">
-            <p><?=$user_name;?></p>
+            <p><?= $_SESSION['user']['name'];?></p>
+            <p class="user-menu__item"><a href="logout.php">Выход</a></p>
           </div>
         <?php else:?>
           <ul class="user-menu__list">
@@ -34,7 +34,7 @@
               <a href="#">Регистрация</a>
             </li>
             <li class="user-menu__item">
-              <a href="#">Вход</a>
+              <a href="login.php">Вход</a>
             </li>
           </ul>
         <?php endif;?>
