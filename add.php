@@ -6,6 +6,8 @@ require_once 'functions.php';
 session_start();
 
 if (empty($_SESSION['user'])) {
+  // запишем в cookie адрес куда шли до login.php ('ref' => string '/add.php')
+  setcookie('ref', "{$_SERVER['REQUEST_URI']}");
   header("Location: login.php");
   exit();
 } else {

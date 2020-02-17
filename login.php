@@ -44,7 +44,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'errors' => $errors
       ]);
   } else {
-      header("Location: index.php");
+      // если в cookie есть 'ref' => string '/add.php'
+      $ref = $_COOKIE['ref'];
+      if (empty($ref)) {
+        $ref = 'index.php';
+      }
+      header("Location: $ref");
+      // удаляем cookie['ref']
+      setcookie('ref', 'delete', time() - 3600);
       exit();
   }
 } else {
@@ -61,5 +68,3 @@ $layout_page = render('templates/layout.php',
 );
 
 echo $layout_page;
-
-var_dump($_SERVER['REQUEST_URI']);
