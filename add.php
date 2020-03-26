@@ -1,15 +1,15 @@
 <?php
-
+require_once 'init.php';
 require_once 'data.php';
 require_once 'functions.php';
 
 session_start();
+require_once 'user_init.php';
 
-if (empty($_SESSION['user'])) {
+if ($user_data['id'] === null) {
   // запишем в cookie адрес куда шли до login.php ('ref' => string '/add.php')
   setcookie('ref', "{$_SERVER['REQUEST_URI']}");
   header("Location: login.php");
-  exit();
 } else {
     $menu_block = render('templates/menu.php', ['categories' => $categories]);
 
@@ -107,7 +107,7 @@ if (empty($_SESSION['user'])) {
     $layout_page = render('templates/layout.php',
       [
         'title' => $title,
-        'user_avatar' => $user_avatar,
+        'user_data' => $user_data,
         'content' => $content_page,
         'menu' => $menu_block
       ]

@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS `users`
   name VARCHAR(64) NOT NULL,
   password VARCHAR(64) NOT NULL,
   avatar VARCHAR(64) NULL DEFAULT NULL,
-  phone VARCHAR(64) NOT NULL,
+  contacts TEXT NOT NULL,
+  token VARCHAR(255) NULL DEFAULT NULL,
   UNIQUE index_users_email (email),
   INDEX index_users_name (name)
 );

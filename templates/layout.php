@@ -20,18 +20,18 @@
       <a class="main-header__add-lot button" href="add.php">Добавить лот</a>
       <nav class="user-menu">
         
-        <?php if (isset($_SESSION['user'])):?>
+        <?php if (isset($user_data['id'])):?>
           <div class="user-menu__image">
-            <img src="<?= $user_avatar;?>" width="40" alt="Пользователь">
+            <img src="<?= strlen($user_data['avatar'])? $user_data['avatar'] : 'img\avatar-default.svg';?>" width="40" alt="Пользователь">
           </div>
           <div class="user-menu__logged">
-            <p><?= $_SESSION['user']['name'];?></p>
+            <p><?= $user_data['name'];?></p>
             <p class="user-menu__item"><a href="logout.php">Выход</a></p>
           </div>
         <?php else:?>
           <ul class="user-menu__list">
             <li class="user-menu__item">
-              <a href="#">Регистрация</a>
+              <a href="sign-up.php">Регистрация</a>
             </li>
             <li class="user-menu__item">
               <a href="login.php">Вход</a>

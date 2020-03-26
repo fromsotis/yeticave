@@ -1,8 +1,11 @@
 <?php
+require_once 'init.php';
 require_once 'data.php';
 require_once 'functions.php';
 
 session_start();
+require_once 'user_init.php';
+
 
 $id = null;
 
@@ -40,6 +43,7 @@ if ($id === null) {
     $content_page = render('templates/lot.php',
       [
         'id' => $id,
+        'user_data' => $user_data,
         'menu' => $menu_block,
         'lots' => $lots
       ]
@@ -49,7 +53,7 @@ if ($id === null) {
 $layout_page = render('templates/layout.php',
   [
     'title' => $title,
-    'user_avatar' => $user_avatar,
+    'user_data' => $user_data,
     'content' => $content_page,
     'menu' => $menu_block
   ]

@@ -1,7 +1,7 @@
 <?php
+require_once 'init.php';
 require_once 'data.php';
 require_once 'functions.php';
-require_once 'userdata.php';
 
 session_start();
 
@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if (empty($_POST['email']) or empty($_POST['password'])) {
     foreach ($requierd as $field) {
       if (empty($_POST[$field])) {
-        // $errors[$field] = 'Это поле надо заполнить';
         if ($field === 'email') {
           $errors['email'] = 'Введите e-mail';
         }
@@ -23,16 +22,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
     }
   } else {
-      $user = searchUserByEmail($_POST['email'], $users);
-      if (!count($errors) and $user) {
+      $email = clearStr(mysqli_real_escape_string($link, $_POST['email']));
+      $query = "SELECT id, email, name, password, avatar FROM users WHERE email = '$email'";
+      $result = mysqli_query($link, $query) or die(mysqli_error($link));
+      $user = mysqli_fetch_assoc($result);
+      // если в бд нет email то $user вернет null
+      if ($user) {
         if (password_verify($_POST['password'], $user['password'])) {
-          $_SESSION['user'] = $user;
-
+          $token = rand(1, 10000000);
+          $query = "UPDATE users SET token = '$token' WHERE id = {$user['id']}";
+          mysqli_query($link, $query);
+          $_SESSION['token'] = $token;
+          /* */
+          $ref = $_COOKIE['ref'];
+          if (empty($ref)) {
+            $ref = 'index.php';
+          }
+          header("Location: $ref");
+          // удаляем cookie['ref']
+          setcookie('ref', 'delete', time() - 3600);
+          exit();
+          // ***
         } else {
-            $errors['password'] = 'Неверный пароль';
+            $errors['password'] = 'Пользователь или пароль указан не верно';
+            $errors['email'] = 'Пользователь или пароль указан не верно';
         }
       } else {
-          $errors['email'] = 'Такой пользователь не найден';
+          $errors['password'] = 'Пользователь или пароль указан не верно';
+          $errors['email'] = 'Пользователь или пароль указан не верно';
       }
   }
 
@@ -43,17 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'form' => $_POST,
         'errors' => $errors
       ]);
-  } else {
-      // если в cookie есть 'ref' => string '/add.php'
-      $ref = $_COOKIE['ref'];
-      if (empty($ref)) {
-        $ref = 'index.php';
-      }
-      header("Location: $ref");
-      // удаляем cookie['ref']
-      setcookie('ref', 'delete', time() - 3600);
-      exit();
-  }
+  } 
 } else {
     $login_page = render('templates/login.php', ['menu' => $menu_block]);
 }
@@ -61,7 +68,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $layout_page = render('templates/layout.php',
   [
     'title' => 'Вход - Yeticave',
-    'user_avatar' => $user_avatar,
     'content' => $login_page,
     'menu' => $menu_block
   ]

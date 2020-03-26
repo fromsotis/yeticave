@@ -69,3 +69,21 @@ function searchUserByEmail($email, $users)
   }
   return $result;
 }
+
+// function searchUserByEmailFromDB($email)
+// {
+//   $result = null;
+//   // foreach ($users as $user) {
+//   //   if ($user['email'] == $email) {
+//   //     $result = $user;
+//   //     break;
+//   //   }
+//   // }
+//   $email = clearStr(mysqli_real_escape_string($link, $email);
+//   $query = "SELECT email FROM users WHERE email = '$email'";
+//   $result = mysqli_query($link, $query) or die(mysqli_error($link));
+//   if (mysqli_num_rows($result) > 0) { // mysqli_num_rows($result) вернет кол-во строк с email
+
+//   } 
+//   return $result;
+// }

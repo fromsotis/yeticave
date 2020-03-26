@@ -1,12 +1,14 @@
 <main>
 
-  <?= $menu;?>
+  <?php
+    echo $menu;
+    $classname = isset($errors) ? 'form--invalid' : '';
+  ?>
 
-  <?php $classname = isset($errors) ? 'form--invalid' : '';?>
   <form class="form container <?= $classname;?>" action="login.php" method="POST">
     <h2>Вход</h2>
-
     <?php
+      echo isset($_SESSION['reg_user'])? '<p>Теперь вы можете войти, используя свой email и пароль</p>' : '';
       $classname = isset($errors['email']) ? 'form__item--invalid' : '';
       $value = $form['email'] ?? '';
     ?>

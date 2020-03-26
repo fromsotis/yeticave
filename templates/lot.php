@@ -13,7 +13,7 @@
         <p class="lot-item__description"><?= $lots[$id]['description'];?></p>
       </div>
       <div class="lot-item__right">
-        <?php if (isset($_SESSION['user'])):?>
+        <?php if (isset($user_data['id'])):?>
         <div class="lot-item__state">
           <div class="lot-item__timer timer">
             <?= calcTimeToMidnight();?>

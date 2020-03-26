@@ -13,10 +13,13 @@ date_default_timezone_set('Asia/Vladivostok');
 //     ['name' => 'Семён', 'price' => 10000, 'ts' => strtotime('last week')]
 // ];
 
-$user_avatar = 'img/user.jpg';
+//$user_avatar = 'img/user.jpg';
 
-$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
+//$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 
+$query = "SELECT name FROM categories";
+$result = mysqli_query($link, $query) or die(mysqli_error($link));
+$categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
 $lots =
 [
   [
