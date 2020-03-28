@@ -22,7 +22,7 @@ INSERT INTO lots (title, description, img, price, date_expire, user_id, category
      Tincidunt dui ut ornare lectus. Pharetra vel turpis nunc eget lorem dolor sed.',
     'img/lot-1.jpg',
     10999,
-    '2020-03-21 15:00',
+    '2020-03-21',
     1,
     1
   ),
@@ -36,7 +36,7 @@ INSERT INTO lots (title, description, img, price, date_expire, user_id, category
      Tincidunt dui ut ornare lectus. Pharetra vel turpis nunc eget lorem dolor sed.',
     'img/lot-2.jpg',
     15999,
-    '2020-03-20 15:00',
+    '2020-03-20',
     3,
     1
   ),
@@ -50,7 +50,7 @@ INSERT INTO lots (title, description, img, price, date_expire, user_id, category
      Tincidunt dui ut ornare lectus. Pharetra vel turpis nunc eget lorem dolor sed.',
     'img/lot-3.jpg',
     8000,
-    '2020-03-18 15:00',
+    '2020-03-18',
     1,
     2
   ),
@@ -64,7 +64,7 @@ INSERT INTO lots (title, description, img, price, date_expire, user_id, category
      Tincidunt dui ut ornare lectus. Pharetra vel turpis nunc eget lorem dolor sed.',
     'img/lot-4.jpg',
     10999,
-    '2020-03-10 15:00',
+    '2020-03-10',
     2,
     3
   ),
@@ -78,7 +78,7 @@ INSERT INTO lots (title, description, img, price, date_expire, user_id, category
      Tincidunt dui ut ornare lectus. Pharetra vel turpis nunc eget lorem dolor sed.',
     'img/lot-5.jpg',
     7500,
-    '2020-03-18 15:00',
+    '2020-03-18',
     2,
     4
   ),
@@ -92,7 +92,7 @@ INSERT INTO lots (title, description, img, price, date_expire, user_id, category
      Tincidunt dui ut ornare lectus. Pharetra vel turpis nunc eget lorem dolor sed.',
     'img/lot-6.jpg',
     5400,
-    '2020-03-25 15:00',
+    '2020-03-25',
     1,
     6
   );

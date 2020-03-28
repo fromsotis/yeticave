@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `lots`
   description TEXT NOT NULL,
   img VARCHAR(128) NOT NULL,
   price DECIMAL NOT NULL,
-  date_expire DATETIME NOT NULL,
+  date_expire DATE NOT NULL,
   step DECIMAL NOT NULL DEFAULT 0,
   favorites INT NULL DEFAULT NULL,
   user_id INT NOT NULL,
