@@ -1,9 +1,8 @@
 <?php
+session_start();
 require_once 'init.php';
 require_once 'data.php';
 require_once 'functions.php';
-
-session_start();
 
 $menu_block = render('templates/menu.php', ['categories' => $categories]);
 
@@ -34,9 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           mysqli_query($link, $query);
           $_SESSION['token'] = $token;
           /* */
-          $ref = $_COOKIE['ref'];
-          if (empty($ref)) {
-            $ref = 'index.php';
+          if (isset($_COOKIE['ref'])) {
+            $ref = $_COOKIE['ref'];
+          } else {
+              $ref = 'index.php';
           }
           header("Location: $ref");
           // удаляем cookie['ref']

@@ -1,10 +1,4 @@
 <?php
-ini_set('error_reporting', E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-
-date_default_timezone_set('Asia/Vladivostok');
-
 // ставки пользователей, которыми надо заполнить таблицу
 // $bets = [
 //     ['name' => 'Иван', 'price' => 11500, 'ts' => strtotime('-' . rand(1, 50) .' minute')],

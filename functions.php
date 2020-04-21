@@ -12,10 +12,11 @@ function formatPrice($price)
 
 function render($template, $vars = [])
 {
-  // if (!is_file($template) or !file_exists($template)) {
-  //   return "<b>$template</b> - ошибочный аргумент функции render!";
-  //   exit;
-  // }
+  // Debug:
+  if (!is_file($template) or !file_exists($template)) {
+    return "<b>$template</b> - ошибочный аргумент функции render!";
+    exit;
+  }
   ob_start();
   extract($vars);
   require_once $template;
@@ -68,4 +69,26 @@ function searchUserByEmail($email, $users)
     }
   }
   return $result;
+}
+
+function showBetDate($date) {
+  $date = strtotime($date);
+  $time = time() - $date;
+  if ($time < (60 * 5)) {
+    return 'Только что';
+  } elseif ($time >= (60 * 5) and $time < (60 * 20)) {
+      return '5 минут назад';
+  } elseif ($time >= (60 * 20) and $time < (60 * 60)) {
+      return '20 минут назад';
+  } elseif ($time >= (60 * 60) and $time < (60 * 60 * 2)) {
+      return '1 час назад';
+  } elseif ($time >= (60 * 60 *2) and $time < (60 * 60 * 3)) {
+      return '2 часа назад';
+  } elseif ($time >= (60 * 60 * 3) and (int)date("d", time()) == (int)date("d", $date)) {
+      return 'Сегодня в '. date("H:i", $date);
+  } elseif ($time >= (60 * 60 * 3) and (int)(date("d", time())) -1 == (int)date("d", $date)) {
+      return 'Вчера в '. date("H:i", $date);
+  } else {
+      return date("d.m.y", $date).' в '.date("H:i", $date);
+  }
 }

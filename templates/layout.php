@@ -26,7 +26,10 @@
           </div>
           <div class="user-menu__logged">
             <p><?= $user_data['name'];?></p>
-            <p class="user-menu__item"><a href="logout.php">Выход</a></p>
+            <p class="user-menu__item">
+              <a href="my-lots.php">Мои ставки</a>
+              <a href="logout.php">Выход</a>
+            </p>
           </div>
         <?php else:?>
           <ul class="user-menu__list">

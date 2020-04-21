@@ -1,12 +1,12 @@
 <?php
+session_start();
 require_once 'init.php';
+require_once 'winner.php';
 require_once 'data.php';
 require_once 'functions.php';
-
-session_start();
 require_once 'user_init.php';
 
-$query = "SELECT date_create, title, img, price, date_expire, categories.name
+$query = "SELECT lots.id, date_create, title, img, price, date_expire, categories.name
 FROM lots
 INNER JOIN categories ON lots.category_id = categories.id
 WHERE date_expire > CURRENT_TIME()

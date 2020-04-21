@@ -45,8 +45,8 @@ CREATE TABLE IF NOT EXISTS `lots`
   img VARCHAR(128) NOT NULL,
   price DECIMAL NOT NULL,
   date_expire DATE NOT NULL,
-  step DECIMAL NOT NULL DEFAULT 0,
-  favorites INT NULL DEFAULT NULL,
+  step DECIMAL NOT NULL, #DEFAULT 0,
+  #favorites INT NULL DEFAULT NULL,
   user_id INT NOT NULL,
   winner INT NULL DEFAULT NULL,
   category_id INT NOT NULL,
@@ -83,7 +83,7 @@ ADD CONSTRAINT fk_lots_users
 -- lots(winner) -> users(id)
 ALTER TABLE lots
 ADD CONSTRAINT fk_lots_winner_users
-  FOREIGN KEY (user_id)
+  FOREIGN KEY (winner)
   REFERENCES users (id)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
