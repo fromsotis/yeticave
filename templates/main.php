@@ -3,24 +3,34 @@
     <h2 class="promo__title">Нужен стафф для катки?</h2>
     <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
     <ul class="promo__list">
-      <li class="promo__item promo__item--boards">
-        <a class="promo__link" href="all-lots.html">Доски и лыжи</a>
-      </li>
-      <li class="promo__item promo__item--attachment">
-        <a class="promo__link" href="all-lots.html">Крепления</a>
-      </li>
-      <li class="promo__item promo__item--boots">
-        <a class="promo__link" href="all-lots.html">Ботинки</a>
-      </li>
-      <li class="promo__item promo__item--clothing">
-        <a class="promo__link" href="all-lots.html">Одежда</a>
-      </li>
-      <li class="promo__item promo__item--tools">
-        <a class="promo__link" href="all-lots.html">Инструменты</a>
-      </li>
-      <li class="promo__item promo__item--other">
-        <a class="promo__link" href="all-lots.html">Разное</a>
-      </li>
+      <?php
+        foreach ($categories as $key => $category) {
+          switch ($category['name']) {
+            case 'Доски и лыжи':
+              $classname = 'promo__item--boards';
+              break;
+            case 'Крепления';
+              $classname = 'promo__item--attachment';
+              break;
+            case 'Ботинки':
+              $classname = 'promo__item--boots';
+              break;
+            case 'Одежда':
+              $classname = 'promo__item--clothing';
+              break;
+            case 'Инструменты':
+              $classname = 'promo__item--tools';
+              break;
+            case 'Разное';
+              $classname = 'promo__item--other';
+              break;
+          }
+
+          echo "<li class=\"promo__item $classname\">";
+          echo "<a class=\"promo__link\" href=\"all-lots.php?id={$category['id']}\">{$category['name']}</a>";
+          echo "</li>";
+        }
+      ?>
     </ul>
   </section>
   <section class="lots">
@@ -57,7 +67,36 @@
           </div>
         </li>
       <?php endforeach;?>
-
     </ul>
   </section>
+
+  <?php if ($pageCount > 1):?>
+    <ul class="pagination-list">
+      <li class="pagination-item pagination-item-prev">
+        <?php
+          $prev = $curPage -1;
+          if ($curPage != 1) {
+            echo "<a href=\"?page=$prev\">Назад</a>";
+          } else {
+              echo "<a>Назад</a>";
+          }
+        ?>
+      </li>
+        <?php foreach($pages as $page):?>
+          <li class="pagination-item<?php if ($curPage == $page): ?> pagination-item-active<?php endif;?>">
+            <a href="?page=<?=$page;?>"><?=$page;?></a>
+          </li>
+        <?php endforeach;?>
+      <li class="pagination-item pagination-item-next">
+        <?php
+          $next = $curPage + 1;
+          if ($curPage < $pageCount) {
+            echo "<a href=\"?page=$next\">Вперед</a>";
+          } else {
+              echo "<a>Вперед</a>";
+          }
+        ?>
+      </li>
+    </ul>
+  <?php endif;?>
 </main>

@@ -15,16 +15,19 @@
       <div class="lot-item__right">
         <div class="lot-item__state">
           <?php
-            // Подсвечиваем красным date_expire если осталось меньше суток
-            if (floor((strtotime($lots['date_expire']) - strtotime('tomorrow')) / 3600)) {
-              $classname = '';
+            $date = intval(floor(strtotime($lots['date_expire']) - strtotime('tomorrow')) / 3600);
+            if ($date === 0) {
+              $dateExpire = showDaysExpire($lots['date_expire']);
+              $timer = "<div class=\"lot-item__timer timer timer--finishing\">$dateExpire</div>";
+            } elseif ($date < 0) {
+                $timer = "<div class=\"lot-item__timer timer timer--end\">Лот закрыт</div>";
             } else {
-                $classname = 'timer--finishing';
+                $dateExpire = showDaysExpire($lots['date_expire']);
+                $timer = "<div class=\"lot-item__timer timer\">$dateExpire</div>";
             }
-            ?>
-          <div class="lot-item__timer timer <?= $classname;?>">
-            <?= showDaysExpire($lots['date_expire']);?>
-          </div>
+            echo $timer;
+          ?>
+          
           <div class="lot-item__cost-state">
             <div class="lot-item__rate">
               <span class="lot-item__amount">Текущая цена</span>
@@ -47,7 +50,7 @@
           <?php endif;?>
         </div>
         <div class="history">
-          <?php if(!$betsHistory):?>
+          <?php if (!isset($betsHistory)):?>
             <h3>История ставок (0)</h3>
           <?php else:?>
             <h3>История ставок (<span><?= count($betsHistory);?></span>)</h3>

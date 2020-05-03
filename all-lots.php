@@ -1,25 +1,29 @@
 <?php
 session_start();
 require_once 'init.php';
-require_once 'winner.php';
 require_once 'data.php';
 require_once 'functions.php';
 require_once 'user_init.php';
 
+$id = clearInt($_GET['id']);
+
 $curPage = isset($_GET['page']) ? $_GET['page'] : 1; // номер страницы, для ссылки
 $pageItems = 6; // сколько лотов отображать на странице
 $offSet = ($curPage - 1) * $pageItems; // с какого лота отображать на странице
-$query = "SELECT lots.id, date_create, title, img, price, date_expire, categories.name
-FROM lots
-INNER JOIN categories ON lots.category_id = categories.id
-WHERE date_expire > CURRENT_TIME()
-ORDER BY date_create ASC
-LIMIT $pageItems
-OFFSET $offSet";
+
+// category_id передаем для get['id'], чтобы создать ?id=category_id&page=$page
+$query = "SELECT lots.id, category_id, date_create, title, img, price, date_expire, categories.name
+  FROM lots
+  JOIN categories ON lots.category_id = categories.id
+  WHERE categories.id = $id AND date_expire > CURRENT_TIME()
+  ORDER BY date_create ASC
+  LIMIT $pageItems
+  OFFSET $offSet";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
+
 $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$query = "SELECT COUNT(*) AS count FROM lots";
+$query = "SELECT COUNT(*) AS count FROM lots WHERE category_id = $id";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
 // получаем кол-во лотов = 6
 $count = mysqli_fetch_assoc($result)['count'];
@@ -30,13 +34,13 @@ $pages = range(1, $pageCount);
 
 $menu_block = render('templates/menu.php', ['categories' => $categories]);
 
-$content_page = render('templates/main.php',
+$content_page = render('templates/all-lots.php',
   [
-    'categories' => $categories,
-    'lots' => $lots,
+    'menu' => $menu_block,
     'curPage' => $curPage,
     'pageCount' => $pageCount,
-    'pages' => $pages
+    'pages' => $pages,
+    'lots' => $lots
   ]);
 
 $layout_page = render('templates/layout.php',
