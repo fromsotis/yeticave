@@ -10,16 +10,16 @@ $curPage = isset($_GET['page']) ? $_GET['page'] : 1; // номер страни�
 $pageItems = 6; // сколько лотов отображать на странице
 $offSet = ($curPage - 1) * $pageItems; // с какого лота отображать на странице
 $query = "SELECT lots.id, date_create, title, img, price, date_expire, categories.name
-FROM lots
-INNER JOIN categories ON lots.category_id = categories.id
-WHERE date_expire > CURRENT_TIME()
-ORDER BY date_create ASC
-LIMIT $pageItems
-OFFSET $offSet";
+  FROM lots
+  INNER JOIN categories ON lots.category_id = categories.id
+  WHERE date_expire > CURRENT_TIME()
+  ORDER BY date_create ASC
+  LIMIT $pageItems
+  OFFSET $offSet";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
 $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$query = "SELECT COUNT(*) AS count FROM lots";
+$query = "SELECT COUNT(*) AS count FROM lots WHERE date_expire > CURRENT_TIME()";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
 // получаем кол-во лотов = 6
 $count = mysqli_fetch_assoc($result)['count'];

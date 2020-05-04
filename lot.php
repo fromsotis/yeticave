@@ -74,8 +74,17 @@ if (isset($_GET['id'])) {
           $price = clearInt($_POST['cost']);
           $user_id = $user_data['id'];
           $lot_id = $lots['id'];
+
+          ## Транзакция на добавление ставки ##
+          mysqli_query($link, "START TRANSACTION");
           $query = "INSERT INTO bets (price, user_id, lot_id) VALUES ('$price', '$user_id', '$lot_id')";
-          mysqli_query($link, $query) or die(mysqli_error($link));
+          $result = mysqli_query($link, $query);
+          if ($result) {
+              mysqli_query($link, 'COMMIT');
+          } else {
+              mysqli_query($link, 'ROLLBACK');
+          }
+          ## Транзакция на добавление ставки ##
           // После сохранения ставки выполняем переадресацию на страницу просмотра лота,
           // чтобы избежать повторного добавления при обновлении страницы.
           // "Location: /lot.php?id=5"

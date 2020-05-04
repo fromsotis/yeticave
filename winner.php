@@ -6,10 +6,21 @@ $lotIds = mysqli_fetch_all($result, MYSQLI_ASSOC); // массив с проср
 
 if ($lotIds) {
   foreach ($lotIds as $key => $value) {
+    $id = (int)$value['id'];
     $query =
       "UPDATE lots
-      SET lots.winner = (SELECT bets.user_id FROM bets WHERE bets.price = (SELECT MAX(bets.price) FROM bets WHERE bets.lot_id = {$value['id']}))
-      WHERE lots.id = {$value['id']}";
+      SET winner =
+                        (
+                        SELECT user_id
+                        FROM bets
+                        WHERE price =
+                                          (
+                                          SELECT MAX(price)
+                                          FROM bets
+                                          WHERE lot_id = $id
+                                          )
+                        )
+      WHERE id = $id";
     mysqli_query($link, $query) or die(mysqli_error($link));
   }
 }
