@@ -95,3 +95,6 @@ ADD CONSTRAINT fk_lots_categories
   REFERENCES categories(id)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+-- FULLTEXT search on lots.tile , lots.description
+CREATE FULLTEXT INDEX lots_fulltext_search ON lots(title, description);

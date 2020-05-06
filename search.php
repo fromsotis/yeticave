@@ -6,6 +6,9 @@ require_once 'data.php';
 require_once 'functions.php';
 require_once 'user_init.php';
 
+//mysqli_query($link, 'CREATE FULLTEXT INDEX lots_ft_search ON lots(title, description)');
+
+$search = $_GET['search'] ?? '';
 $curPage = isset($_GET['page']) ? $_GET['page'] : 1; // номер страницы, для ссылки
 $pageItems = 6; // сколько лотов отображать на странице
 $offSet = ($curPage - 1) * $pageItems; // с какого лота отображать на странице
@@ -22,14 +25,14 @@ $query =
               (SELECT price FROM bets WHERE lot_id = lots.id ORDER BY price DESC LIMIT 1) AS bets_price
         FROM lots
         INNER JOIN categories ON lots.category_id = categories.id
-        WHERE date_expire > CURRENT_TIME()
+        WHERE MATCH(title, description) AGAINST('$search' IN BOOLEAN MODE) AND date_expire > CURRENT_TIME()
         ORDER BY date_create ASC
         LIMIT $pageItems
         OFFSET $offSet";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
 $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$query = "SELECT COUNT(*) AS count FROM lots WHERE date_expire > CURRENT_TIME()";
+$query = "SELECT COUNT(*) AS count FROM lots WHERE MATCH(title, description) AGAINST('$search') AND date_expire > CURRENT_TIME()";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
 // получаем кол-во лотов = 6
 $count = mysqli_fetch_assoc($result)['count'];
@@ -40,9 +43,11 @@ $pages = range(1, $pageCount);
 
 $menu_block = render('templates/menu.php', ['categories' => $categories]);
 
-$content_page = render('templates/main.php',
+$content_page = render('templates/search.php',
   [
+    'menu' => $menu_block,
     'categories' => $categories,
+    'search' => $search,
     'lots' => $lots,
     'curPage' => $curPage,
     'pageCount' => $pageCount,

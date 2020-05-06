@@ -11,7 +11,7 @@
 
 //$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 
-$query = "SELECT id, name FROM categories";
+$query = "SELECT id, name FROM categories ORDER BY id";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
 $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
 

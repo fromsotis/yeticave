@@ -14,13 +14,22 @@ if (!count($ids)) {
     $offSet = ($curPage - 1) * $pageItems; // с какого лота отображать на странице
     $ids = implode(', ',$ids);
     $query =
-      "SELECT lots.id, lots.title, lots.img, lots.price, lots.date_expire, categories.name
-      FROM lots
-      JOIN categories ON lots.category_id = categories.id
-      WHERE lots.id IN ($ids) AND date_expire > CURRENT_TIME()
-      ORDER BY lots.date_expire -- без ORDER BY вывод лотов рандомно дублируется, так как в бд порядка нет offset может брать повторяющийся лот
-      LIMIT $pageItems
-      OFFSET $offSet";
+            "SELECT
+                  lots.id,
+                  date_create,
+                  title,
+                  img,
+                  price,
+                  date_expire,
+                  categories.name,
+                  (SELECT COUNT(*) FROM bets WHERE lot_id = lots.id) AS bets_count,
+                  (SELECT price FROM bets WHERE lot_id = lots.id ORDER BY price DESC LIMIT 1) AS bets_price
+            FROM lots
+            INNER JOIN categories ON lots.category_id = categories.id
+            WHERE lots.id IN ($ids) AND date_expire > CURRENT_TIME()
+            ORDER BY date_create ASC -- ORDER BY lots.date_expire -- без ORDER BY вывод лотов рандомно дублируется, так как в бд порядка нет offset может брать повторяющийся лот
+            LIMIT $pageItems
+            OFFSET $offSet";
 
     $result = mysqli_query($link, $query);
     $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);

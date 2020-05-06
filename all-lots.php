@@ -12,18 +12,29 @@ $pageItems = 6; // сколько лотов отображать на стра�
 $offSet = ($curPage - 1) * $pageItems; // с какого лота отображать на странице
 
 // category_id передаем для get['id'], чтобы создать ?id=category_id&page=$page
-$query = "SELECT lots.id, category_id, date_create, title, img, price, date_expire, categories.name
-  FROM lots
-  JOIN categories ON lots.category_id = categories.id
-  WHERE categories.id = $id AND date_expire > CURRENT_TIME()
-  ORDER BY date_create ASC
-  LIMIT $pageItems
-  OFFSET $offSet";
+$query =
+        "SELECT
+              lots.id,
+              category_id,
+              date_create,
+              title,
+              img,
+              price,
+              date_expire,
+              categories.name,
+              (SELECT COUNT(*) FROM bets WHERE lot_id = lots.id) AS bets_count,
+              (SELECT price FROM bets WHERE lot_id = lots.id ORDER BY price DESC LIMIT 1) AS bets_price
+        FROM lots
+        INNER JOIN categories ON lots.category_id = categories.id
+        WHERE categories.id = $id AND date_expire > CURRENT_TIME()
+        ORDER BY date_create ASC
+        LIMIT $pageItems
+        OFFSET $offSet";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
 
 $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-$query = "SELECT COUNT(*) AS count FROM lots WHERE category_id = $id";
+$query = "SELECT COUNT(*) AS count FROM lots WHERE category_id = $id AND date_expire > CURRENT_TIME()";
 $result = mysqli_query($link, $query) or die(mysqli_error($link));
 // получаем кол-во лотов = 6
 $count = mysqli_fetch_assoc($result)['count'];
