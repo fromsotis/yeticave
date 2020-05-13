@@ -56,7 +56,7 @@ function showDaysExpire($date)
   if (!$day) {
     return $timeToMidnight;
   }
-  return $day.' day(s)';
+  return $day.'day(s)';
 }
 
 function searchUserByEmail($email, $users)

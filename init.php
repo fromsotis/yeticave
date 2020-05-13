@@ -9,6 +9,9 @@ ini_set('display_startup_errors', 1);
 
 date_default_timezone_set('Asia/Vladivostok');
 
+// composer
+require_once 'vendor/autoload.php';
+
 $db =
   [
     'host' => 'localhost',

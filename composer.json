@@ -1,0 +1,7 @@
+{
+    "name": "alexey/yetcave.local",
+    "type": "project",
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2"
+    }
+}
